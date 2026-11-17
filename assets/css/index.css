@@ -1,0 +1,170 @@
+body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+/* 1. ANIMASI TITIK KELAP-KELIP (LIVE INDICATOR) HERO BADGE */
+@keyframes pulseGlow {
+    0%, 100% {
+        opacity: 1;
+        transform: scale(1);
+        box-shadow: 0 0 10px rgba(245, 158, 11, 0.9);
+    }
+    50% {
+        opacity: 0.3;
+        transform: scale(0.75);
+        box-shadow: 0 0 2px rgba(245, 158, 11, 0.2);
+    }
+}
+
+.animate-live-dot {
+    animation: pulseGlow 1.2s infinite ease-in-out;
+}
+
+/* 2. EFEK HOVER GLOW PADA TOMBOL CTA */
+.btn-glow {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.btn-glow:hover {
+    box-shadow: 0 0 25px rgba(245, 158, 11, 0.6);
+    transform: translateY(-2px);
+}
+
+/* 4. OPTIMASI TRANSISI NAVBAR & TOPBAR */
+#top-bar {
+    height: 34px;
+    box-sizing: border-box;
+    will-change: height, padding, opacity;
+    transition: height 0.32s ease, padding 0.32s ease, opacity 0.25s ease, border-width 0.32s ease;
+}
+body.has-scrolled #top-bar {
+    padding-top: 0;
+    padding-bottom: 0;
+    border-bottom-width: 0;
+    opacity: 0;
+}
+
+#main-header {
+    will-change: top, background-color, box-shadow, backdrop-filter;
+    transition: top 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease, backdrop-filter 0.3s ease;
+}
+
+#header-container {
+    will-change: height;
+    transition: height 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+#hero-bg {
+    transform: translate3d(0, 0, 0) scale(1.08);
+    will-change: transform;
+}
+#hero-content {
+    will-change: transform, opacity;
+    transform: translate3d(0, 0, 0);
+}
+@media (max-width: 640px) {
+    #hero-content { padding-top: 2rem; padding-bottom: 4rem; }
+}
+
+/* 5. PARALLAX HERO BACKGROUND & CONTENT */
+.parallax-bg {
+    will-change: transform;
+    transform-style: preserve-3d;
+}
+
+.parallax-content {
+    will-change: transform, opacity;
+}
+
+/* 6. REUSABLE STAGGERED VIEWPORT ENTRANCE (INTERSECTION OBSERVER) */
+.reveal-on-scroll {
+    opacity: 0;
+    transform: translateY(28px) scale(0.98);
+    transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+    transition-delay: calc(var(--stagger-index, 0) * 110ms);
+    will-change: opacity, transform;
+}
+
+.reveal-on-scroll.is-visible {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .animate-live-dot, .parallax-bg, .reveal-on-scroll {
+        animation: none !important;
+        transition: none !important;
+        transform: none !important;
+        opacity: 1 !important;
+    }
+}
+
+/* NAVBAR OVERLAY HERO: TRANSPARAN SAAT DI ATAS */
+#main-header {
+    position: fixed;
+    top: 34px;
+    left: 0;
+    right: 0;
+    width: 100%;
+    background-color: transparent !important;
+    border-bottom: 1px solid transparent !important;
+    box-shadow: none !important;
+    z-index: 40;
+    color: #fff;
+}
+#main-header nav { color: #fff !important; }
+#main-header nav a {
+    color: #fff !important;
+    border-color: transparent;
+}
+#main-header nav a:hover { color: #fbbf24 !important; }
+#main-header nav a:first-child { border-color: #f59e0b; }
+#main-header h1 { color: #fff !important; }
+#main-header p { color: rgba(255,255,255,.82) !important; }
+#main-header form input {
+    background-color: rgba(255,255,255,.14) !important;
+    color: #fff !important;
+    border-color: rgba(255,255,255,.25) !important;
+}
+#main-header form input::placeholder { color: rgba(255,255,255,.75); }
+
+/* SAAT SCROLL: TOPBAR HILANG, NAVBAR PUTIH DAN MENEMPEL DI ATAS */
+body.has-scrolled #main-header {
+    top: 0;
+    background-color: rgba(255, 255, 255, 0.97) !important;
+    border-bottom: 1px solid #f3f4f6 !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08) !important;
+    backdrop-filter: blur(12px);
+}
+body.has-scrolled #main-header nav { color: #374151 !important; }
+body.has-scrolled #main-header nav a { color: #374151 !important; }
+body.has-scrolled #main-header nav a:hover { color: #312e81 !important; }
+body.has-scrolled #main-header nav a:first-child { color: #312e81 !important; border-color: #312e81; }
+body.has-scrolled #main-header h1 { color: #111827 !important; }
+body.has-scrolled #main-header p { color: #6b7280 !important; }
+body.has-scrolled #main-header form input {
+    background-color: #f3f4f6 !important;
+    color: #111827 !important;
+    border-color: transparent !important;
+}
+body.has-scrolled #main-header form input::placeholder { color: #9ca3af; }
+
+#hero-section {
+    width: 100vw;
+    min-height: calc(100vh - 34px);
+    box-sizing: border-box;
+}
+@supports (height: 100svh) {
+    #hero-section { min-height: calc(100svh - 34px); }
+}
+@media (min-width: 768px) {
+    #hero-section { min-height: calc(110vh - 34px); }
+    @supports (height: 100svh) {
+        #hero-section { min-height: calc(110svh - 34px); }
+    }
+}
+#hero-bg {
+    background-size: cover;
+    background-position: center 52%;
+}
+@media (max-width: 1023px) {
+    #main-header #header-container { gap: .75rem; }
+}
